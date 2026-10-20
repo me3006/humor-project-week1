@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "node --env-file=.env.local scripts/seed.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:integration": "node --env-file=.env.local scripts/verify-database.mjs",
+    "test:browser": "playwright test",
+    "diagnose:database": "node --env-file=.env.local scripts/diagnose-database.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -16,12 +21,15 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
