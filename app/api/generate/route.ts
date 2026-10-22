@@ -1,6 +1,6 @@
 import { admin, failure, sameOrigin, session, uuid } from "@/lib/server";
 import { categoryFor, entryColumns } from "@/lib/categories";
-import { generateJoke } from "@/lib/ai.mjs";
+import { loggedGenerate } from "@/lib/logged-ai.mjs";
 export const maxDuration = 60;
 export async function POST(request: Request) {
   if (!sameOrigin(request))
@@ -81,7 +81,14 @@ export async function POST(request: Request) {
           ),
           429,
         );
-      const result = await generateJoke(category.name, story, previous);
+      const result = await loggedGenerate(
+        service,
+        body.requestId,
+        category.name,
+        story,
+        previous,
+        user.id,
+      );
       const { data, error: saveError } = await service.rpc(
         "wt_save_generation",
         {

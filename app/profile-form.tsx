@@ -39,6 +39,16 @@ export default function ProfileForm({
     let avatarUrl: string | null = null;
 
     if (avatarFile) {
+      if (
+        !["image/png", "image/jpeg", "image/webp", "image/gif"].includes(
+          avatarFile.type,
+        ) ||
+        avatarFile.size > 5 * 1024 * 1024
+      ) {
+        setMessage("Choose a PNG, JPEG, WebP, or GIF up to 5 MB.");
+        setSaving(false);
+        return;
+      }
       const fileExt = avatarFile.name.split(".").pop();
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `${userId}/${fileName}`;
@@ -158,7 +168,7 @@ export default function ProfileForm({
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg,image/webp,image/gif"
             style={{ display: "none" }}
             aria-label="Choose a new profile picture"
             onChange={(e) => {
